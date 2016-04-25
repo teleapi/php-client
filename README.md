@@ -2,7 +2,7 @@ PHP Client Library
 ==================
 
 ## Installation
-Getting going with the library is pretty simple. Just download the tar.gz file and unpack it. Then, in your code:
+Getting going with the library is pretty simple. Just git clone the library. Then, in your code:
 
 ```
 require_once('/path/to/library/BaseTele.class.php');
