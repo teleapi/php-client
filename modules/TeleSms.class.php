@@ -40,5 +40,6 @@ class TeleSms extends BaseTele {
 			'file_name' => $file_name,
 			'file_data' => $file_data
 		);
+		return $this->call();
 	}
 }
