@@ -49,7 +49,7 @@ class BaseTele {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($ch);
 
-		curl_close($ch);
+		//curl_close($ch);
 		if (!$response) {
 			 return (object) array('code' => 500, 'status' => 'no response', 'data' => curl_error($ch));
 		}
@@ -57,6 +57,7 @@ class BaseTele {
 		if (!$return) {
 			 return (object) array('code' => 500, 'status' => 'bad data', 'data' => $response);
 		}
+		curl_close($ch);
 		return $return;
 	}
 }
