@@ -684,7 +684,7 @@ $resp = $flows->list_flows();
 print_r($resp);
 ```
 
-#### Remove an call flow
+#### Remove a call flow
 `stdClass remove( int $flow_id );`
 ```
 $resp = $flows->remove(904);
