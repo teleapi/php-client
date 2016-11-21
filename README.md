@@ -25,6 +25,7 @@ In the library is an spl_autoload function that will grab all the individual mod
 * TeleUser
 * TeleUserDids
 * TeleVoicemail
+* TeleFlows
 
 ## Usage
 Pretty much everything in each of these modules nearly exactly matches the API documentation. For instance, TeleIpEndpoint has the functions `create`, `list_endpoints`, `remove`. Note, `list_endpoints` differs from the API endpoint `list` because PHP already has a `list` function and gets angry if you try to steal it. So, any `list` functions will be `list_something`. 
@@ -626,5 +627,86 @@ print_r($resp);
 `stdClass update_inbox( int $inbox_id, string $name, int $inbox_number, int(4) $pin, boolean $transcribe );`
 ```
 $resp = $vm->update_inbox(238, 'Bob', 5432, 1111, false);
+print_r($resp);
+```
+
+### TeleFlows
+
+```
+$flows = new TeleFlows($token);
+```
+
+#### Create a new call flow
+`stdClass create( string $flow_name, JSON string $flow_data )`
+```
+$primary = array(
+	"command" => "route",
+	"options" => array(
+		"duration" => "15",
+		"destination" => array(
+			"type" => "ip_endpoint",
+			"value" => "303"
+		)
+	)
+);
+$flow_data = array();
+$flow_data[] = $primary;
+$flow_data = json_encode($flow_data);
+$resp = $flows->create('My Call Flow', $flow_data);
+print_r($resp);
+```
+
+#### Set the default call flow for new numbers
+`stdClass default_set( int $flow_id );`
+```
+$resp = $flows->default_set(904);
+print_r($resp);
+```
+
+#### Assign a call flow to a phone number.
+`stdClass did_assign( int $did_id, int $flow_id );`
+```
+$resp = $flows->did_assign(452,904);
+print_r($resp);
+```
+
+#### Get a call flow (returns all pertinent data for a specific call flow)
+`stdClass get( int $flow_id );`
+```
+$resp = $flows->get(904);
+print_r($resp);
+```
+
+#### List the call flows you've previously created
+`stdClass list_flows();`
+```
+$resp = $flows->list_flows();
+print_r($resp);
+```
+
+#### Remove an call flow
+`stdClass remove( int $flow_id );`
+```
+$resp = $flows->remove(904);
+print_r($resp);
+```
+
+#### Update a call flow
+`stdClass update( int $flow_id, string $flow_name, JSON string $flow_data );`
+```
+$primary = array(
+	"command" => "route",
+	"options" => array(
+		"duration" => "15",
+		"destination" => array(
+			"type" => "ip_endpoint",
+			"value" => "303"
+		)
+	)
+);
+$flow_data = array();
+$flow_data[] = $primary;
+$flow_data = json_encode($flow_data);
+$resp = $flows->update(904, "My Call Flow", $flow_data);
 print_r($resp);
 ```
